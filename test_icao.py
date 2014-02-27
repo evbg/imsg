@@ -177,7 +177,7 @@ if __name__ == "__main__":
                             print "method_func is not None:"
                             print json.dumps(method_func(pattern, example), indent=4).decode("unicode-escape")
     tests()
-    parser = imsg.icao.parser()
+    parser = imsg.icao.Parser()
 
     messages = [
 #"""

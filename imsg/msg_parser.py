@@ -17,8 +17,8 @@ class Parser():
 
     def __init__(self):
         self.parsers = [
-            iata.parser(),
-            icao.parser(),
+            iata.Parser(),
+            icao.Parser(),
         ]
 
     def decode(self, raw):

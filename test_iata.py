@@ -198,7 +198,7 @@ if __name__ == "__main__":
                             logger.info(json.dumps(method_func(pattern, example), indent=4, sort_keys=True).decode("unicode-escape"))
 #    tests()
 
-    parser = imsg.iata.parser()
+    parser = imsg.iata.Parser()
 
     messages = [
 """\

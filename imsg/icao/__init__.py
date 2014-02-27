@@ -1,1 +1,1 @@
-from icao_ats_msg_parser import ICAO_ats_msg_parser as parser
+from icao_ats_msg_parser import ICAO_ats_msg_parser as Parser
