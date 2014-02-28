@@ -237,6 +237,30 @@ YQ765/09.VQBGC.DME
 AD0908/0915 EA1025 EGO
 PX30
 """,
+"""
+=HEADER
+RCV,2014/02/19 06:03
+=PRIORITY
+QN
+=DESTINATION TYPE B
+STX,ULYFWXH
+STX,LEDFF7X
+STX,VOZPLXH
+=ORIGIN
+QXTGWXS
+=DBLSIG
+XS
+=MSGID
+190603
+=SMI
+MVT
+=TEXT
+YQ703/19.VPBPR.LED
+AA0548/0552
+
+supplementary sender/recipients information
+from /c=ww/a=sitamail/o=typeb/s=ledff7x
+""",
 ]
     for msg in messages:
         msg_decoded =  parser.decode(msg)
