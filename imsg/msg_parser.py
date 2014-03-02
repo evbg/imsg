@@ -16,20 +16,36 @@ import logging
 class Parser():
 
     def __init__(self):
+
+        self.parsers_dict = {
+            "iata": iata.Parser(),
+            "icao": icao.Parser(),
+        }
+
         self.parsers = [
             iata.Parser(),
             icao.Parser(),
         ]
 
-    def decode(self, raw):
+    def decode(self, raw, standard=None):
         ret = None
-        for parser in self.parsers:
+        if standard in self.parsers_dict:
             try:
-                decoded = parser.decode(raw)
+                decoded = self.parsers_dict[standard](raw)
             except:
-                logging.error(traceback.format_exc())
+                logging.debug(traceback.format_exc())
             else:
                 if decoded is not None:
                     if decoded != {}:
                         ret = decoded
+        else:
+            for parser in self.parsers:
+                try:
+                    decoded = parser.decode(raw)
+                except:
+                    logging.debug(traceback.format_exc())
+                else:
+                    if decoded is not None:
+                        if decoded != {}:
+                            ret = decoded
         return ret
