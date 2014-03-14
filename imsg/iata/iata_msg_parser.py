@@ -828,6 +828,9 @@ class IATA_msg_parser():
             return None
 
         msg_decoded = self.extract_msg_from_raw(raw)
+        if msg_decoded is None or msg_decoded == {}:
+            return None
+
         msg_parts = self.get_parts_from_msg(msg_decoded["DATA"])
         parts_decoded = self.decode_parts(msg_parts)
         smi = msg_decoded.get("SMI", None)
