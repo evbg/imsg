@@ -1479,7 +1479,10 @@ class ICAO_ats_msg_parser():
         return ret
 
     def get_fields_list_from_msg(self, msg):
-        return msg.split("-")
+        try:
+            return msg.split("-")
+        except:
+            return None
 
     def get_msg_type_from_fields_list(self, fields_list):
         msg_type = fields_list[0]
@@ -1515,19 +1518,37 @@ class ICAO_ats_msg_parser():
         if raw is None:
             return None
         ret = {}
+        parts = {}
+        errors =  {}
         msg = self.extract_msg_from_raw(raw)
         fields_list = self.get_fields_list_from_msg(msg)
+        if fields_list is None:
+            return None
         msg_type = self.get_msg_type_from_fields_list(fields_list)
         matrix = self.get_matrix_by_msg_type(msg_type)
+        len_matrix = len(matrix)
+        len_fields_list = len(fields_list)
         combines = zip(matrix, fields_list)
+        if len_matrix != len_fields_list:
+            errmsg = u"""\
+Количество полей {0} не соответствует спецификации\
+ стандарта ICAO {1} для сообщений типа {2}.\
+ Установлено следующее соответствие:\
+ {3}""".format(len_fields_list, len_matrix, msg_type, combines)
+            logging.warning(errmsg)
+            errors["BAD_FIELDS_COUNT"] = errmsg
         for combine in combines:
             matches = self.get_matches_by_combine(combine)
-            ret[combine[0]] = matches
-        return {
-            "PARTS": ret,
+            parts[combine[0]] = matches
+        ret =  {
+            "PARTS": parts,
             "MSG": {
                 "STANDARD": "ICAO",
                 "CATEGORY": "ATS",
                 "TYPE": ret.get(3, {}).get("Message_Type_Designator", None)
             }
         }
+
+        if len(errors)>0:
+            ret["ERRORS"] = errors
+        return ret
