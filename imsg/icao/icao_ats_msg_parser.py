@@ -1439,7 +1439,7 @@ class ICAO_ats_msg_parser():
         self.decode_errors = None
 
     def extract_msg_from_raw(self, raw=None):
-        logging.debug("RAW:\n{RAW}".format(RAW=raw))
+        # logging.debug("RAW:\n{RAW}".format(RAW=raw))
 
         if raw is None:
             raw = self.raw
